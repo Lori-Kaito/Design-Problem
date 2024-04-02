@@ -33,18 +33,14 @@ module bcd_to_7seg_display (bcd_in, A, B, C, D, E, F, G);
 
     always @(*) begin
         case (bcd_in)
-            4'b0000: {A, B, C, D, E, F, G} = 7'b1111110; // Digit 0
-            4'b0001: {A, B, C, D, E, F, G} = 7'b0110000; // Digit 1
-            4'b0010: {A, B, C, D, E, F, G} = 7'b1101101; // Digit 2
-            4'b0011: {A, B, C, D, E, F, G} = 7'b1111001; // Digit 3
-            4'b0100: {A, B, C, D, E, F, G} = 7'b0110011; // Digit 4
-            4'b0101: {A, B, C, D, E, F, G} = 7'b1011011; // Digit 5
-            4'b0110: {A, B, C, D, E, F, G} = 7'b1011111; // Digit 6
-            4'b0111: {A, B, C, D, E, F, G} = 7'b1110000; // Digit 7
-            4'b1000: {A, B, C, D, E, F, G} = 7'b1111111; // Digit 8
-            4'b1001: {A, B, C, D, E, F, G} = 7'b1111011; // Digit 9
-            4'b1010: {A, B, C, D, E, F, G} = 7'b1110111; // Digit A or 10
-            4'b1100: {A, B, C, D, E, F, G} = 7'b0011111; // Digit C or 12
+            4'b0001: {A, B, C, D, E, F, G} = 7'b0110000; // 1
+            4'b0010: {A, B, C, D, E, F, G} = 7'b1101101; // 2
+            4'b0100: {A, B, C, D, E, F, G} = 7'b0110011; // 4
+            4'b0110: {A, B, C, D, E, F, G} = 7'b1011111; // 6
+            4'b1000: {A, B, C, D, E, F, G} = 7'b1111111; // 8
+            4'b1010: {A, B, C, D, E, F, G} = 7'b1110111; // A or 10
+            4'b1100: {A, B, C, D, E, F, G} = 7'b1001110; // C or 12
+            default: {A, B, C, D, E, F, G} = 7'b0000000; // 0
         endcase
     end
 endmodule
