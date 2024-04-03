@@ -1,11 +1,12 @@
 module EulerTotient(R, clk_0, A, B, C, D, E, F, G);
-    input R, clk_0;
-    output wire A, B, C, D, E, F, G;
+    input R, clk_0; // inputs
+    output wire A, B, C, D, E, F, G; // outputs
 
-    reg [3:0] current_value; 
-    reg [3:0] totient_rom [0:15]; 
+    reg [3:0] current_value; // this is the internal register to store the current value being displayed
 
-    // Initialize ROM with Euler's Totient sequence
+    reg [3:0] totient_rom [0:15]; // this is the ROM to store the pre calculated Euler's Totient values
+
+    // this initialize ROM with Euler's Totient sequence
     initial begin
         totient_rom[0] = 4'b0001; totient_rom[1] = 4'b0001; totient_rom[2] = 4'b0010; 
         totient_rom[3] = 4'b0010; totient_rom[4] = 4'b0100; totient_rom[5] = 4'b0010;
@@ -15,23 +16,24 @@ module EulerTotient(R, clk_0, A, B, C, D, E, F, G);
         totient_rom[15] = 4'b1000;
     end
 
+    // the logic to cycle through ROM values and handle the reset
     always @(posedge clk_0) begin
-        if (R) begin
+        if (R) begin // this resets if R is high
             current_value <= 0; 
         end else begin
-            current_value <= (current_value == 15) ? 0 : current_value + 1; 
+            current_value <= (current_value == 15) ? 0 : current_value + 1; // increment or reset
         end
     end
 
-    // BCD to 7-segment decoder
+    // pass the current value to the decoder
     bcd_to_7seg_display my_decoder (totient_rom[current_value], A, B, C, D, E, F, G);
 endmodule
 
 module bcd_to_7seg_display (bcd_in, A, B, C, D, E, F, G);
-    input [3:0] bcd_in; 
-    output reg A, B, C, D, E, F, G;
+    input [3:0] bcd_in; // inputs
+    output reg A, B, C, D, E, F, G; // outputs
 
-    always @(*) begin
+    always @(*) begin // this is the combinational logic to decode BCD and light up segments
         case (bcd_in)
             4'b0001: {A, B, C, D, E, F, G} = 7'b0110000; // 1
             4'b0010: {A, B, C, D, E, F, G} = 7'b1101101; // 2
